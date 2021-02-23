@@ -1,5 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
+import { useEffect, useState } from 'react';
 
 function App() {
   var person = {
@@ -60,6 +61,9 @@ function App() {
            nayoks.map(nayok => <li>{nayok}</li>)
          }
        </ul>
+
+       <Counter></Counter>
+       <Users></Users>
       </header>
     </div>
   );
@@ -121,6 +125,39 @@ function Product(props) {
       <h3>{name}</h3>
       <h5>{price}</h5>
       <button>Buy Now</button>
+    </div>
+  )
+}
+
+function Counter() {
+  const [count, setCount] = useState(10)
+  return(
+    <div>
+      <h1>Count:{count} </h1>
+      <button onClick = {() => setCount(count + 1)}>Increase</button>
+      <button onMouseMove = {() => setCount(count - 1)}>Decrease</button>
+      <button onMouseMove = {() => setCount(count - 10)}>Decrease At rate 10 prime</button>
+    </div>
+  )
+}
+
+function Users() {
+  const [users, setUsers] = useState([]);
+  useEffect(() => {
+    fetch('https://jsonplaceholder.typicode.com/users')
+  .then(response => response.json())
+  .then(data =>{
+    setUsers(data);
+    
+  });
+  }, [])
+
+  return (
+    <div>
+      <h3>Dynamic users: {users.length}</h3>
+      {
+        users.map(user => <li>{user.name}</li>)
+      }
     </div>
   )
 }
